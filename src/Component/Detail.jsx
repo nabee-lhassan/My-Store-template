@@ -39,11 +39,20 @@ export default function Detail() {
         dispatch(addCart(product));
     };
 
-    // product image slider 
-
+    // for giving slide image src to thumbnail image 
+    
     const [slidImage, setSlidImage] = useState("");
+    
+    // for giving image mark on click
+    
+    const [selectedImage, setSelectedImage] = useState(null);
 
-    console.log(slidImage)
+    const handleImageClick = (e, image) => {
+        setSelectedImage(image);
+      };
+    
+
+    
 
     if (!product) {
         return (
@@ -69,7 +78,7 @@ export default function Detail() {
                 <div className="row" key={product.id}>
                     <div className="col-lg-6">
                         <div className="div-image-detail">
-                        <img style={{border:'2px solid lightgray', width: '50%'}} src={slidImage} alt={product.title} />
+                        <img style={{border: '2px solid lightgray', width: '50%', }} src={slidImage} alt={product.title} />
                         </div>
 
                         <Swiper
@@ -87,7 +96,7 @@ export default function Detail() {
                                         <div key={index} className="swiper-slide">
 
                                                     <SwiperSlide>
-                                                        <img  style={{width:'100%'}} onClick={(e) => {setSlidImage(e.target.src)}} src={image} alt="" />
+                                                        <img  style={{ border: selectedImage === image ? '2px solid lightgray' : 'none', width:'95%', margin:'10px'}} onClick={(e) => {setSlidImage(e.target.src), handleImageClick(e, image)}} src={image} alt="" />
                                                     </SwiperSlide>
 
                                         </div>
