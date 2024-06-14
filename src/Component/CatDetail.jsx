@@ -33,6 +33,7 @@ export default function CatDetail() {
   });
 
   const totalProducts = filteredProducts.length;
+  
 
   return (
     <div>

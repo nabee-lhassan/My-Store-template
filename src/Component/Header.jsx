@@ -45,7 +45,13 @@ export default function Header() {
 
   const NewCartPopup = useSelector((state)=> state.popup.popslice)
 
+  // Search Filer
 
+const state = useSelector((state) => state);
+
+const [searchFiler, setSearchFiler] = useState()
+
+console.log(searchFiler)
 
 
 
@@ -86,6 +92,21 @@ export default function Header() {
                 </ul>
               </li>
             </ul>
+            <div className="div-main-search">
+            <input type="text" onChange={(e) => {setSearchFiler(e.target.value.toLowerCase())}} />
+              <div className="div-search-result bg-light">
+                {searchFiler !== '' ? (state.products.data.filter((e)=> e.title.toLowerCase().includes(searchFiler)).map((item)=> (
+                  <div key={item.id} className="div-product-list">
+                    <Link className="nav-link dropdown-item" to={`/detail/${item.id}`}>
+                    <h6>{item.title}</h6>
+                              
+                            </Link>
+                    
+
+                  </div>
+                ))) : null}
+              </div>
+            </div>
             <div className="div-main-cart-wish">
               <div className="div-cart text-light mx-3">
                 <Link className="nav-link text-light" onClick={() => { setPopup(true) }} title="Cart">

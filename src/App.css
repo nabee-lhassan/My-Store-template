@@ -173,6 +173,18 @@ justify-content: center;
 
 }
 
+/* search filter in header */
+
+.div-main-search{
+  position: relative;
+}
+
+.div-search-result{
+  position: absolute;
+  border: 1px solid gray;
+  min-width: 100%;
+}
+
 
 
 .main-button{
