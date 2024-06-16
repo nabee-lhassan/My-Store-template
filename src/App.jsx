@@ -11,6 +11,7 @@ import Cart from './Component/Cart.jsx';
 import Wish from './Component/Wish.jsx';
 import NotFound from './Component/NotFound.jsx';
 import CatDetail from './Component/CatDetail.jsx';
+import Search from './Component/Search.jsx';
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
         <Route path="/detail/:id" element={<Detail />} />  {/* About route */}
         <Route path="/cart" element={<Cart />} />  {/* About route */}
         <Route path="/wishlist" element={<Wish />} />  {/* About route */}
+        <Route path="/search" element={<Search />} />  {/* About route */}
         <Route path="*" element={<NotFound />} />  {/* About route */}
         {/* Add more routes as needed */}
       </Routes>

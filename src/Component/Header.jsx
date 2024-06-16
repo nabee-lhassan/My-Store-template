@@ -49,9 +49,14 @@ export default function Header() {
 
 const state = useSelector((state) => state);
 
-const [searchFiler, setSearchFiler] = useState()
+const [searchFilter, setsearchFilter] = useState()
 
-console.log(searchFiler)
+const searchHendle = (e)=> {
+  setsearchFilter(e.target.value.toLowerCase())
+  
+}
+
+console.log(searchFilter)
 
 
 
@@ -93,11 +98,24 @@ console.log(searchFiler)
               </li>
             </ul>
             <div className="div-main-search">
-            <input type="text" onChange={(e) => {setSearchFiler(e.target.value.toLowerCase())}} />
+            <input type="text"         value={searchFilter} onChange={(e) => {searchHendle(e)}} />
               <div className="div-search-result bg-light">
-                {searchFiler !== '' ? (state.products.data.filter((e)=> e.title.toLowerCase().includes(searchFiler)).map((item)=> (
+                {searchFilter !== '' ? ( state.products.data.filter((e)=> e.title.toLowerCase().includes(searchFilter)).map((item)=> (
                   <div key={item.id} className="div-product-list">
-                    <Link className="nav-link dropdown-item" to={`/detail/${item.id}`}>
+                    <Link className="nav-link dropdown-item" onClick={()=> {setsearchFilter('')}} to={`/detail/${item.id}`}>
+                    <h6>{item.title}</h6>
+                              
+                            </Link>
+                    
+
+                  </div>
+                ))) : null}
+              </div>
+
+              <div className="div-search-result bg-light">
+                {searchFilter !== '' ? ( state.products.data.filter((e)=> e.title.toLowerCase().includes(searchFilter)).map((item)=> (
+                  <div key={item.id} className="div-product-list">
+                    <Link className="nav-link dropdown-item" onClick={()=> {setsearchFilter('')}} to={`/detail/${item.id}`}>
                     <h6>{item.title}</h6>
                               
                             </Link>

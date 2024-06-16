@@ -1,9 +1,12 @@
 import AllProduct from "./AllProduct";
+import Heading from "./Heading";
 
 export default function Product() {
   return (
     <div>
-      <h2>Product Page</h2>
+
+<Heading heading="All Products" pera="" />
+
       <AllProduct category=""/>
 
     </div>

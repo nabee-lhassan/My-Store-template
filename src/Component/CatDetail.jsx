@@ -25,6 +25,7 @@ export default function CatDetail() {
   }
 
   const products = useSelector((state) => state.products.data);
+  console.log('test', products)
 
   // Filter products based on the category
   const filteredProducts = products.filter((element) => {
@@ -35,13 +36,39 @@ export default function CatDetail() {
   const totalProducts = filteredProducts.length;
   
 
+  const state = useSelector((state) => state);
+
+
+  if (state.products.isLoading) {
+    return <h1>Loading...</h1>;
+  }
   return (
     <div>
       <div className="div-heading-category">
       <Heading heading={name.toUpperCase()} pera="Discover our exclusive products." />
       </div>
       <aside style={{width:'20%', float:'left', backgroundColor:'lightgray', height:'100vh',padding:'2%'}} className="side-left">
-      <h6>Total Products in {name}: ({totalProducts})</h6>
+      <h3 style={{textTransform:'capitalize'}}> {name}</h3>
+      <h6 style={{textTransform:'capitalize'}}> Product Count: ({totalProducts})</h6>
+      <div className="dropdown">
+  <button className="btn  p-0 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Search By Category
+  </button>
+  <ul className="dropdown-menu">
+    {
+      Array.from(new Set (products.map((uniquCate)=> (uniquCate.category)))).map((itemCat)=> (
+        
+        <li key={itemCat}><Link className="dropdown-item" to={`/category/${itemCat}`} >{itemCat}</Link></li>
+
+       
+      ))
+      }
+  </ul>
+</div>
+        
+     
+      
+      
 
       </aside>
       <aside style={{width:'80%', float:'right'}} className="side-right">

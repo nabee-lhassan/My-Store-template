@@ -183,6 +183,7 @@ justify-content: center;
   position: absolute;
   border: 1px solid gray;
   min-width: 100%;
+  z-index: 2;
 }
 
 

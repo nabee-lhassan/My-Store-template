@@ -5,6 +5,7 @@ import {addCart} from "../redux/Slice/CartSlice"
 import {addWishlist} from "../redux/Slice/wishlistSlice"
 import { Link } from "react-router-dom";
 import { setPop } from "../redux/Slice/PopSlice";
+import Rating from "./Rating";
 
 
 export default function AllProduct(Props) {
@@ -70,8 +71,12 @@ export default function AllProduct(Props) {
           {item.title.substring(0, 10)}
             </h4>
 
+            <Rating star={`${item.rating}`} />
+
             <h5>Rs. {item.price}</h5>
             <p>{item.description.substring(0,40)}...</p>
+
+
             </Link>
             
           </div>
