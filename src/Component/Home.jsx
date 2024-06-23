@@ -9,6 +9,9 @@ export default function Home() {
     <div>
       <Slider/>
 
+
+
+
 <Heading heading="Our Best Beauty Collections" pera="Discover our exclusive range of Beauty products." />
 
       <AllProduct category="beauty"/>

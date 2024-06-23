@@ -5,6 +5,8 @@ import Button from "./Button";
 import { addWishlist } from "../redux/Slice/wishlistSlice";
 import { setPop } from "../redux/Slice/PopSlice";
 import Heading from "./Heading";
+import Rating from "./Rating";
+
 
 export default function CatDetail() {
   // Destructure the specific parameter from the URL
@@ -21,9 +23,12 @@ export default function CatDetail() {
 
   const wishlistsHendle = (Product)=>{
     dispatch(addWishlist(Product))
+    
+    
       
   }
 
+  
   const products = useSelector((state) => state.products.data);
   console.log('test', products)
 
@@ -98,6 +103,8 @@ export default function CatDetail() {
               
           {item.title.substring(0, 10)}
             </h4>
+            <Rating star={`${item.rating}`} />
+
 
             <h5>Rs. {item.price}</h5>
             <p>{item.description.substring(0,40)}...</p>
