@@ -235,6 +235,10 @@ justify-content: center;
 
 /* Category Detail Page  */
 
-
+.price-filter-title{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
 
 

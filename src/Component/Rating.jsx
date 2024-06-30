@@ -13,13 +13,11 @@ const star = ({ star }) => {
 
       if(i <= star){
           
-        console.log('less then', 'i', i, 'star',star)
 
         stars.push(<FaStar style={{ color: "gold" }} />)
       }
      else if(i === Math.ceil(star) && !Number.isInteger(star)){
         stars.push(<FaStarHalfAlt style={{ color: "gold" }}  />)
-        console.log('equal to', 'i', i, 'star',star)
         
       }
       else if(i >= star ){
