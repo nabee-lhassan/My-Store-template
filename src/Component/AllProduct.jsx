@@ -70,7 +70,7 @@ export default function AllProduct(Props) {
               
           {item.title.substring(0, 10)}
             </h4>
-            <h1>test</h1>
+            
 
             <Rating star={`${item.rating}`} />
 

@@ -6,67 +6,50 @@ import { addWishlist } from "../redux/Slice/wishlistSlice";
 import { setPop } from "../redux/Slice/PopSlice";
 import Heading from "./Heading";
 import Rating from "./Rating";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { IoGridOutline } from "react-icons/io5";
 import { CiBoxList } from "react-icons/ci";
 
 export default function CatDetail() {
-  // Destructure the specific parameter from the URL
   const { name } = useParams();
-
   const dispatch = useDispatch();
-
-  function handle(product) {
-    dispatch(addCart(product));
-    dispatch(setPop(true));
-  }
-
-  const wishlistsHandle = (product) => {
-    dispatch(addWishlist(product));
-  }
-
   const products = useSelector((state) => state.products.data);
+  const isLoading = useSelector((state) => state.products.isLoading);
 
-  // Filter products based on the category
-  // const filteredProducts = products.filter((element) => element.category === name);
-
-  
   const filteredProducts = useMemo(() => 
     products.filter((element) => element.category === name), 
     [products, name]
   );
 
-  // Log prices of filtered products
   const filteredPrices = filteredProducts.map((product) => product.price);
-
-  // Find the maximum and minimum price, handle empty filteredPrices case
-  const maxPrice = filteredPrices.length > 0 ? Math.max(...filteredPrices) : '';
-  const minPrice = filteredPrices.length > 0 ? Math.min(...filteredPrices) : '';
+  const maxPrice = filteredPrices.length > 0 ? Math.max(...filteredPrices) : 0;
+  const minPrice = filteredPrices.length > 0 ? Math.min(...filteredPrices) : 0;
 
   const [price, setPrice] = useState(maxPrice);
+
+  
+  useEffect(() => {
+    setPrice(maxPrice);
+  }, [maxPrice]);
 
   const priceUpdate = (event) => {
     setPrice(Number(event.target.value));
   };
 
+  const priceFilteredProducts = filteredProducts.filter(
+    (product) => product.price <= price
+  );
 
-  const priceFilteredProducts = filteredProducts.filter((product)=> 
-    product.price <= price 
-  )
-  
+  const handle = (product) => {
+    dispatch(addCart(product));
+    dispatch(setPop(true));
+  };
 
-  // const priceFilteredProducts = filteredProducts.filter(
-  //   (product) => product.price <= price
-  // );
+  const wishlistsHandle = (product) => {
+    dispatch(addWishlist(product));
+  };
 
-  const totalProducts = filteredProducts.length;
-
-  const state = useSelector((state) => state);
-
-
-  
-
-  if (state.products.isLoading) {
+  if (isLoading) {
     return <h1>Loading...</h1>;
   }
 
@@ -76,23 +59,21 @@ export default function CatDetail() {
         <Heading heading={name.toUpperCase()} pera="Discover our exclusive products." />
       </div>
       <aside style={{ width: '20%', float: 'left', backgroundColor: 'lightgray', height: '100vh', padding: '2%' }} className="side-left">
-        <h3 style={{ textTransform: 'capitalize' }}> {name}</h3>
-        <h6 style={{ textTransform: 'capitalize' }}> Product Count: ({totalProducts})</h6>
+        <h3 style={{ textTransform: 'capitalize' }}>{name}</h3>
+        <h6 style={{ textTransform: 'capitalize' }}> Product Count: ({filteredProducts.length})</h6>
         <div className="dropdown">
           <button className="btn p-0 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             Search By Category
           </button>
           <ul className="dropdown-menu">
-            {
-              Array.from(new Set(products.map((uniqueCate) => uniqueCate.category))).map((itemCat) => (
-                <li key={itemCat}><Link className="dropdown-item" to={`/category/${itemCat}`}>{itemCat}</Link></li>
-              ))
-            }
+            {Array.from(new Set(products.map((uniqueCate) => uniqueCate.category))).map((itemCat) => (
+              <li key={itemCat}><Link className="dropdown-item" to={`/category/${itemCat}`}>{itemCat}</Link></li>
+            ))}
           </ul>
         </div>
         <div className="div-priceFilter">
           <h3>Price Filter</h3>
-          <h5 className="price-filter-title"> Max: <span>{maxPrice}</span> Min: <span>{minPrice}</span> </h5>
+          <h5 className="price-filter-title">Max: <span>{maxPrice}</span> Min: <span>{minPrice}</span></h5>
           <input type="range" min={minPrice} max={maxPrice} value={price} onChange={priceUpdate} />
           <p>{price}</p>
         </div>
@@ -108,7 +89,7 @@ export default function CatDetail() {
         </div>
         <div className="container all-Product">
           <div className="row">
-            {priceFilteredProducts.length > 0 ? priceFilteredProducts .map((item) => (
+            {priceFilteredProducts.length > 0 ? priceFilteredProducts.map((item) => (
               <div className="col-lg-3 col-md-4 col-sm-1 div-card" key={item.id}>
                 <div className="div-image">
                   <button className="wishlist btn" onClick={() => wishlistsHandle(item)}>
