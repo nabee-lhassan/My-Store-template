@@ -16,38 +16,67 @@ export default function CatDetail() {
   const products = useSelector((state) => state.products.data);
   const isLoading = useSelector((state) => state.products.isLoading);
 
+  // category filtering
+
   const filteredProducts = useMemo(() => 
     products.filter((element) => element.category === name), 
     [products, name]
   );
 
+
+  // price filtering
+
+
+// getting all products price by category
   const filteredPrices = filteredProducts.map((product) => product.price);
+
+  // finding max price 
   const maxPrice = filteredPrices.length > 0 ? Math.max(...filteredPrices) : 0;
+
+  // finding min price
   const minPrice = filteredPrices.length > 0 ? Math.min(...filteredPrices) : 0;
 
+// state for updating prices according to input range
   const [price, setPrice] = useState(maxPrice);
 
-  
+  // to stop rerender maxPrice 
   useEffect(() => {
     setPrice(maxPrice);
   }, [maxPrice]);
 
+// price updating range function
   const priceUpdate = (event) => {
     setPrice(Number(event.target.value));
   };
 
+
+// fetching product according to category and price filter
   const priceFilteredProducts = filteredProducts.filter(
     (product) => product.price <= price
   );
 
+  // cart popup function
   const handle = (product) => {
     dispatch(addCart(product));
     dispatch(setPop(true));
   };
 
+  // add in wishlist function
   const wishlistsHandle = (product) => {
     dispatch(addWishlist(product));
   };
+
+  // grid and list view 
+
+  const [productView, setProductView] = useState();
+
+  const listView = ()=>{
+setProductView('flex-column');
+  }
+  
+  const gridView = ()=>{
+setProductView('');
+  }
 
   if (isLoading) {
     return <h1>Loading...</h1>;
@@ -82,13 +111,13 @@ export default function CatDetail() {
         <div className="filter-container container">
           <div className="row">
             <div className="col-lg-12">
-              <button className="btn"><IoGridOutline /></button>
-              <button className="btn"><CiBoxList /></button>
+              <button className="btn" onClick={()=> {gridView()}} ><IoGridOutline /></button>
+              <button className="btn" onClick={()=> {listView()}}><CiBoxList /></button>
             </div>
           </div>
         </div>
         <div className="container all-Product">
-          <div className="row">
+          <div className={`row ${productView} `} >
             {priceFilteredProducts.length > 0 ? priceFilteredProducts.map((item) => (
               <div className="col-lg-3 col-md-4 col-sm-1 div-card" key={item.id}>
                 <div className="div-image">
