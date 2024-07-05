@@ -66,17 +66,27 @@ export default function CatDetail() {
     dispatch(addWishlist(product));
   };
 
-  // grid and list view 
+  const [listAndGrid, setListAndGrid] = useState({
+    productView: '',
+    columnFlex: {},
+    imageWidth: {}
+  });
 
-  const [productView, setProductView] = useState();
+  const listView = () => {
+    setListAndGrid({
+      productView: 'flex-column',
+      columnFlex: { display: 'flex', width: '95%' },
+      imageWidth: {width:'30%'}
+    });
+  };
 
-  const listView = ()=>{
-setProductView('flex-column');
-  }
-  
-  const gridView = ()=>{
-setProductView('');
-  }
+  const gridView = () => {
+    setListAndGrid({
+      productView: '',
+      columnFlex: {},
+      imageWidth: {}
+    });
+  };
 
   if (isLoading) {
     return <h1>Loading...</h1>;
@@ -117,10 +127,10 @@ setProductView('');
           </div>
         </div>
         <div className="container all-Product">
-          <div className={`row ${productView} `} >
+          <div className={`row ${listAndGrid.productView} `} >
             {priceFilteredProducts.length > 0 ? priceFilteredProducts.map((item) => (
-              <div className="col-lg-3 col-md-4 col-sm-1 div-card" key={item.id}>
-                <div className="div-image">
+              <div className={`col-lg-3 col-md-4 col-sm-1 div-card`} style={listAndGrid.columnFlex}  key={item.id}>
+                <div className="div-image" style={ listAndGrid.imageWidth}>
                   <button className="wishlist btn" onClick={() => wishlistsHandle(item)}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" className="bi bi-heart" viewBox="0 0 16 16">
                       <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
